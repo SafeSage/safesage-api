@@ -4,6 +4,7 @@ const cors = require('cors');
 const fs = require('fs');
 const dotenv = require('dotenv').config();
 const db = require('./configs/connection');
+var cron = require('node-cron');
 
 // Importing Routes
 const authRoutes = require('./routers/auth.route');
@@ -24,6 +25,11 @@ app.use(morgan('dev'));
 
 // API Routes
 app.use('/api/auth', authRoutes);
+
+// Keep deployed url active
+cron.schedule('*/10 * * * *', () => {
+    console.log('Cron job running every 10 minutes');
+});
 
 // Test API
 app.get('/api', (req, res) => {
