@@ -56,7 +56,7 @@ const signUp = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const user = await User.findOne({
+        let user = await User.findOne({
             email: req.body.email
         });
 
@@ -71,10 +71,10 @@ const login = async (req, res) => {
                 });
             } else {
                 const { token, expireDate } = await generateBearerToken(user);
-                let user1 = removeSensitiveData(user);
+                user = removeSensitiveData(user);
                 res.status(200).json({
                     data: {
-                        user1,
+                        user,
                         token,
                         expireDate
                     }
