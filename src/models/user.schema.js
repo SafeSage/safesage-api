@@ -36,9 +36,9 @@ const userSchema = new mongoose.Schema(
         uniqueId: {
             type: String
         },
-        patientIds: {
-            type: [String]
-        },
+        // patientIds: {
+        //     type: [String]
+        // },
         // PATIENT FIELDS
         emergencyContacts: {
             type: [String]
