@@ -23,7 +23,7 @@ const signUp = async (req, res) => {
             password: hashedPassword,
             userType: req.body.userType,
             phone: req.body.phone,
-            address: req.body.address ? address : undefined,
+            address: req.body.address ? req.body.address : undefined,
             uniqueId: uniqueID,
             emergencyContacts: req.body.emergencyContacts
                 ? req.body.emergencyContacts
