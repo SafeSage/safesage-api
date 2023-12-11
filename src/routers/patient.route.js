@@ -1,6 +1,10 @@
 const express = require('express');
 const auth = require('./../middlewares/auth.middleware');
-const { connectToGuardian } = require('./../controllers/patient.controller');
+const upload = require('./../configs/multer');
+const {
+    connectToGuardian,
+    detectFall
+} = require('./../controllers/patient.controller');
 
 // Initializing router
 const router = express.Router();
@@ -10,5 +14,7 @@ router.post(
     [auth.verifyJwt, auth.accountActivatedTrue],
     connectToGuardian
 );
+
+router.post('/detect-fall', upload.single('file'), detectFall);
 
 module.exports = router;
