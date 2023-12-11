@@ -1,5 +1,7 @@
+// Importing modules
 const mongoose = require('mongoose');
 
+// Creating the schema
 const eventSchema = new mongoose.Schema(
     {
         guardianId: {
@@ -21,6 +23,7 @@ const eventSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Event = mongoose.model('event', eventSchema);
+const Event = mongoose.model('Event', eventSchema);
 
+// Exporting the module
 module.exports = Event;
