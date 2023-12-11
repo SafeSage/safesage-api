@@ -32,6 +32,14 @@ const userSchema = new mongoose.Schema(
             enum: ['GUARDIAN', 'PATIENT'],
             required: true
         },
+        isActivated: {
+            type: Boolean,
+            default: false
+        },
+        isdeleted: {
+            type: Boolean,
+            default: false
+        },
         // GUARDIAN FIELDS
         uniqueId: {
             type: String

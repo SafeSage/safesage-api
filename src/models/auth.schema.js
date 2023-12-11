@@ -4,6 +4,9 @@ const authSchema = new mongoose.Schema(
     {
         user: {
             type: {
+                id: {
+                    type: String
+                },
                 name: {
                     type: String
                 },
@@ -24,7 +27,7 @@ const authSchema = new mongoose.Schema(
         },
         tokenType: {
             type: String,
-            enum: ['BEARER']
+            enum: ['BEARER', 'EMAIL VERIFICATION CODE']
         },
         isExpired: {
             type: Boolean,
