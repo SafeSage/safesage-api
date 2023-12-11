@@ -79,7 +79,7 @@ const detectFall = async (req, res) => {
                     guardianId: guardian[0]._id,
                     patientId: patient[0]._id,
                     title: 'Fall detected!',
-                    description: `Patient ${patient.name} has fallen. Please check ASAP!!`,
+                    description: `Patient ${patient[0].name} has fallen. Please check ASAP!!`,
                     url: fileUrl.url
                 });
                 await event.save();
