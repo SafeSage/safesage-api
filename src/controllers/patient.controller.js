@@ -19,13 +19,8 @@ const connectToGuardian = async (req, res) => {
                     message: 'Guardian not found'
                 });
             } else {
-                // user = await User.findByIdAndUpdate(
-                //     user._id,
-                //     { $push: { guardianIds: guardianId } },
-                //     { new: true }
-                // );
                 user.guardianIds.push(guardian[0]._id);
-                console.log(guardian);
+
                 await user.save();
                 user = removeSensitiveData(user);
                 guardian = removeSensitiveData(guardian);
@@ -87,7 +82,6 @@ const detectFall = async (req, res) => {
                     description: `Patient ${patient.name} has fallen. Please check ASAP!!`,
                     url: fileUrl.url
                 });
-
                 await event.save();
 
                 await axios.post(
