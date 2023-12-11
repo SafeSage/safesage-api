@@ -2,17 +2,17 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 
 // Setting parameters
-const connectionParameters = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-};
+// const connectionParameters = {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// };
 mongoose.set('strictQuery', true);
 
 // Connecting to the database
 let connection;
 if (process.env.ENVIRONMENT == 'dev') {
     connection = mongoose
-        .connect(process.env.MONGODB_URI_DEV, connectionParameters)
+        .connect(process.env.MONGODB_URI_DEV)
         .then(() => {
             console.log(`Connected to database`);
         })
@@ -21,7 +21,7 @@ if (process.env.ENVIRONMENT == 'dev') {
         });
 } else if (process.env.ENVIRONMENT == 'prod') {
     connection = mongoose
-        .connect(process.env.MONGODB_URI_PROD, connectionParameters)
+        .connect(process.env.MONGODB_URI_PROD)
         .then(() => {
             console.log(`Connected to database`);
         })
