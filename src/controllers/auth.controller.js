@@ -149,8 +149,41 @@ const verifyOtp = async (req, res) => {
     }
 };
 
+const sendOtpEmail = async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.user.id, isDeleted: false });
+
+        if (!user) {
+            res.status(404).json({
+                message: 'User not found'
+            });
+        } else {
+            const auth = await sendEmailOtp(req, user);
+
+            await Auth.findByIdAndUpdate(req.token._id, { isExpired: true });
+
+            const { token, expireDate } = await generateBearerToken(user);
+
+            res.status(201).json({
+                message: 'OTP sent successfully!',
+                data: {
+                    authEmailId: auth._id,
+                    user,
+                    token,
+                    expireDate
+                }
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
 module.exports = {
     login,
     signUp,
-    verifyOtp
+    verifyOtp,
+    sendOtpEmail
 };

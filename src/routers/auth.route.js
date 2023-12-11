@@ -3,7 +3,8 @@ const auth = require('./../middlewares/auth.middleware');
 const {
     signUp,
     login,
-    verifyOtp
+    verifyOtp,
+    sendOtpEmail
 } = require('./../controllers/auth.controller');
 
 // Initializing router
@@ -14,5 +15,7 @@ router.post('/signup', signUp);
 router.post('/login', login);
 
 router.post('/verify-otp', auth.verifyJwt, verifyOtp);
+
+router.post('/send-otp', auth.verifyJwt, sendOtpEmail);
 
 module.exports = router;
