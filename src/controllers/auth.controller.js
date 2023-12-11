@@ -151,7 +151,7 @@ const verifyOtp = async (req, res) => {
 
 const sendOtpEmail = async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.user.id, isDeleted: false });
+        let user = await User.findOne({ _id: req.user.id, isDeleted: false });
 
         if (!user) {
             res.status(404).json({
@@ -163,7 +163,7 @@ const sendOtpEmail = async (req, res) => {
             await Auth.findByIdAndUpdate(req.token._id, { isExpired: true });
 
             const { token, expireDate } = await generateBearerToken(user);
-
+            user = removeSensitiveData(user);
             res.status(201).json({
                 message: 'OTP sent successfully!',
                 data: {
