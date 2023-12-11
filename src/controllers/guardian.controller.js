@@ -1,3 +1,4 @@
+const Event = require('../models/event.schema');
 const User = require('./../models/user.schema');
 
 const getUniqueId = async (req, res) => {
@@ -22,4 +23,26 @@ const getUniqueId = async (req, res) => {
     }
 };
 
-module.exports = { getUniqueId };
+const getEvents = async (req, res) => {
+    try {
+        const events = await Event.find({ guardianId: req.user.id });
+        if (!events) {
+            res.status(404).json({
+                message: 'User not found'
+            });
+        } else {
+            res.status(200).json({
+                message: 'Events found',
+                data: {
+                    events
+                }
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
+module.exports = { getUniqueId, getEvents };
