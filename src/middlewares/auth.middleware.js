@@ -49,6 +49,38 @@ const auth = {
                 message: error.message
             });
         }
+    },
+
+    accountActivatedTrue: (req, res, next) => {
+        try {
+            if (req.user.isActivated === true) {
+                next();
+            } else {
+                res.status(403).json({
+                    message: 'Please activate your account!'
+                });
+            }
+        } catch (error) {
+            res.status(500).json({
+                message: error.message
+            });
+        }
+    },
+
+    accountActivatedFalse: (req, res, next) => {
+        try {
+            if (req.user.isActivated === false) {
+                next();
+            } else {
+                res.status(403).json({
+                    message: 'Account already activated!'
+                });
+            }
+        } catch (error) {
+            res.status(500).json({
+                message: error.message
+            });
+        }
     }
 };
 

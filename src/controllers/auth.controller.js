@@ -5,7 +5,8 @@ const {
     hashPassword,
     validatePassword,
     generateBearerToken,
-    removeSensitiveData
+    removeSensitiveData,
+    sendEmailOtp
 } = require('./../utilities/utils');
 const dotenv = require('dotenv').config();
 
@@ -35,7 +36,7 @@ const signUp = async (req, res) => {
 
         await newUser.save();
 
-        // const auth = await sendEmailOtp(req, newUser);
+        const auth = await sendEmailOtp(req, newUser);
 
         const { token, expireDate } = await generateBearerToken(newUser);
 
@@ -44,7 +45,8 @@ const signUp = async (req, res) => {
             data: {
                 user: newUser,
                 token,
-                expireDate
+                expireDate,
+                authEmailId: auth._id
             }
         });
     } catch (error) {
@@ -88,7 +90,67 @@ const login = async (req, res) => {
     }
 };
 
+const verifyOtp = async (req, res) => {
+    try {
+        const authEmail = await Auth.findById(req.body.authEmailId);
+
+        if (!authEmail) {
+            res.status(404).json({
+                message: 'Email OTP not found'
+            });
+        } else {
+            let user = await User.findOne({
+                _id: authEmail.user.id
+            });
+
+            if (!user) {
+                res.status(404).json({
+                    message: 'User not found'
+                });
+            } else {
+                if (authEmail.token !== req.body.emailOtp) {
+                    res.status(400).json({
+                        message: 'Invalid OTP'
+                    });
+                } else {
+                    user = await User.findByIdAndUpdate(
+                        user._id,
+                        { isActivated: true },
+                        { new: true }
+                    );
+
+                    await Auth.findByIdAndUpdate(authEmail._id, {
+                        isExpired: true
+                    });
+
+                    await Auth.findByIdAndUpdate(req.token._id, {
+                        isExpired: true
+                    });
+
+                    const { token, expireDate } = await generateBearerToken(
+                        user
+                    );
+                    user = removeSensitiveData(user);
+                    res.status(200).json({
+                        message: 'Email verified successfully',
+                        data: {
+                            user,
+                            token,
+                            expireDate
+                        }
+                    });
+                }
+            }
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
 module.exports = {
     login,
-    signUp
+    signUp,
+    verifyOtp
 };
