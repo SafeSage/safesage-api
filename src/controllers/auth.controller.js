@@ -13,9 +13,9 @@ const dotenv = require('dotenv').config();
 const signUp = async (req, res) => {
     try {
         const hashedPassword = hashPassword(req.body.password);
-        const uniqueID = undefined;
+        let uniqueID = undefined;
         if (req.body.userType == 'GUARDIAN') {
-            const uniqueID = generateOtp(6);
+            uniqueID = generateOtp(6);
         }
 
         const newUser = new User({
