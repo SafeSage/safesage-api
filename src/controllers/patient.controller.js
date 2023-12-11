@@ -1,6 +1,6 @@
-const Event = require('../models/event.schema');
-const { removeSensitiveData, cloudinary } = require('../utilities/utils');
+const Event = require('./../models/event.schema');
 const User = require('./../models/user.schema');
+const { removeSensitiveData, cloudinary } = require('../utilities/utils');
 const axios = require('axios');
 const dotenv = require('dotenv').config();
 const fs = require('fs');
