@@ -31,7 +31,8 @@ const signUp = async (req, res) => {
                 : undefined,
             height: req.body.height ? req.body.height : undefined,
             weight: req.body.weight ? req.body.weight : undefined,
-            bmi: req.body.bmi ? req.body.bmi : undefined
+            bmi: req.body.bmi ? req.body.bmi : undefined,
+            guardianIds: []
         });
 
         await newUser.save();
