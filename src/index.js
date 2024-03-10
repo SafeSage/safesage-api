@@ -10,6 +10,7 @@ var cron = require('node-cron');
 const authRoutes = require('./routers/auth.route');
 const guardianRoutes = require('./routers/guardian.route');
 const patientRoutes = require('./routers/patient.route');
+const medicineRoutes = require('./routers/medicine.route');
 
 // Initializing an express app
 const app = express();
@@ -29,6 +30,7 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRoutes);
 app.use('/api/guardian', guardianRoutes);
 app.use('/api/patient', patientRoutes);
+app.use('/api/medicine', medicineRoutes);
 
 // Keep deployed url active
 cron.schedule('*/10 * * * *', () => {

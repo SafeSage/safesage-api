@@ -45,4 +45,26 @@ const getEvents = async (req, res) => {
     }
 };
 
-module.exports = { getUniqueId, getEvents };
+const getAllPatients = async (req, res) => {
+    try {
+        const patients = await User.find({ guardianIds: req.user.id });
+        if (!patients) {
+            res.status(404).json({
+                message: 'Patients not found'
+            });
+        } else {
+            res.status(200).json({
+                message: 'Patients found',
+                data: {
+                    patients
+                }
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+}
+
+module.exports = { getUniqueId, getEvents, getAllPatients };
