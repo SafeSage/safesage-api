@@ -45,6 +45,28 @@ const getEvents = async (req, res) => {
     }
 };
 
+const getEventsByPatient = async (req, res) => {
+    try {
+        const events = await Event.find({ patientId: req.params.patientId });
+        if (!events) {
+            res.status(404).json({
+                message: 'Events not found'
+            });
+        } else {
+            res.status(200).json({
+                message: 'Events found',
+                data: {
+                    events
+                }
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+}
+
 const getAllPatients = async (req, res) => {
     try {
         const patients = await User.find({ guardianIds: req.user.id });
@@ -67,4 +89,4 @@ const getAllPatients = async (req, res) => {
     }
 }
 
-module.exports = { getUniqueId, getEvents, getAllPatients };
+module.exports = { getUniqueId, getEvents, getAllPatients, getEventsByPatient };

@@ -3,7 +3,8 @@ const auth = require('./../middlewares/auth.middleware');
 const {
     getUniqueId,
     getEvents,
-    getAllPatients
+    getAllPatients,
+    getEventsByPatient
 } = require('./../controllers/guardian.controller');
 
 // Initializing router
@@ -16,6 +17,12 @@ router.get(
 );
 
 router.get('/events', [auth.verifyJwt, auth.accountActivatedTrue], getEvents);
+
+router.get(
+    '/events/:patientId',
+    [auth.verifyJwt, auth.accountActivatedTrue],
+    getEventsByPatient
+);
 
 router.get(
     '/patients',
